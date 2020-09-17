@@ -58,7 +58,24 @@ void func_80890874(BgIceShelter* this, GlobalContext* globalCtx, u32 collision, 
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/BgIceShelter_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/BgIceShelter_Destroy.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/BgIceShelter_Destroy.s")
+void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgIceShelter* this = (BgIceShelter*)thisx;
+    switch ((this->dyna.actor.params >> 8) & 0x7) {
+        case 2:
+        case 3:
+            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            break;
+
+        case 0:
+        case 1:
+        case 4:
+            Collider_DestroyCylinder(globalCtx, &this->colliders[1]);
+            break;
+    }
+    Collider_DestroyCylinder(globalCtx, &this->colliders[0]);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890B8C.s")
 // void func_80890B8C(s32 arg0, void *arg1, f32 arg2, f32 arg3) {
