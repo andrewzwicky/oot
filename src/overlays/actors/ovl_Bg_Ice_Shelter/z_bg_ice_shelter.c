@@ -24,7 +24,20 @@ const ActorInit Bg_Ice_Shelter_InitVars = {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890740.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890874.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890874.s")
+void func_80890874(BgIceShelter* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+    s16 pad1;
+    u32 local_c = 0;
+    s16 pad2;
+
+    DynaPolyInfo_SetActorMove(&this->dyna.actor, flag);
+    DynaPolyInfo_Alloc(collision, &local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+    if (this->dyna.dynaPolyId == 0x32) {
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_ice_shelter.c", 0x16A,
+                     this->dyna.actor.id, this->dyna.actor.params);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_808908FC.s")
 
