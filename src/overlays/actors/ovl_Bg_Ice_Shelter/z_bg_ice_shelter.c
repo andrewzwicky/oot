@@ -76,7 +76,6 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colliders[0]);
 }
 
-
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890B8C.s")
 // void func_80890B8C(s32 arg0, void *arg1, f32 arg2, f32 arg3) {
 //     f32 spB4;
@@ -123,7 +122,8 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //         spA8 = temp_f10 * temp_f24;
 //         sp94 = 0.07f * temp_f20;
 //         sp9C = 0.07f * temp_f24;
-//         func_8002829C(arg1, &spAC, &spA0, &sp94, &D_80891704, &D_80891708, (s32) ((s32) (450.0f * arg3) << 0x10) >> 0x10, (s32) ((f32) ((s32) ((s32) ((Math_Rand_ZeroOne() * 40.0f) + 40.0f) << 0x10) >> 0x10) * arg3));
+//         func_8002829C(arg1, &spAC, &spA0, &sp94, &D_80891704, &D_80891708, (s32) ((s32) (450.0f * arg3) << 0x10) >>
+//         0x10, (s32) ((f32) ((s32) ((s32) ((Math_Rand_ZeroOne() * 40.0f) + 40.0f) << 0x10) >> 0x10) * arg3));
 //     }
 //     temp_s2 = phi_s2 + 1;
 //     phi_s2 = temp_s2;
@@ -169,7 +169,8 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //         spA8 = 0.8f;
 //         spA4 = temp_f10 - 0.07f;
 //         spAC = (Math_Rand_ZeroOne() * 0.14f) - 0.07f;
-//         func_8002829C(arg1, &spBC, &spB0, &spA4, &D_80891704, &D_80891708, 0x1C2, (s32) ((Math_Rand_ZeroOne() * 40.0f) + 40.0f));
+//         func_8002829C(arg1, &spBC, &spB0, &spA4, &D_80891704, &D_80891708, 0x1C2, (s32) ((Math_Rand_ZeroOne()
+//         * 40.0f) + 40.0f));
 //     }
 //     temp_s3 = phi_s3 + 1;
 //     phi_s3 = temp_s3;
@@ -246,7 +247,6 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //     this->actionFunc = &func_808911D4;
 //     arg0->unk200 = (u16)0xFF;
 // }
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_808911D4.s")
 // void func_808911D4(void *arg0, s32 arg1) {
@@ -379,10 +379,8 @@ void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx) {
 //         temp_v1 = arg1->unk11DE4;
 //         temp_a2 = (0 - temp_v1) & 0x7F;
 //         sp60 = temp_v0_4;
-//         sp60->unk4 = Gfx_TwoTexScroll(arg1->unk0, 0, temp_a2, temp_a2, 0x20, 0x20, 1, temp_a2, temp_v1 & 0x7F, 0x20, 0x20);
-//         temp_v0_5 = temp_s0->unk2D0;
-//         temp_s0->unk2D0 = (void *) (temp_v0_5 + 8);
-//         temp_v0_5->unk4 = 0x60006F0;
+//         sp60->unk4 = Gfx_TwoTexScroll(arg1->unk0, 0, temp_a2, temp_a2, 0x20, 0x20, 1, temp_a2, temp_v1 & 0x7F, 0x20,
+//         0x20); temp_v0_5 = temp_s0->unk2D0; temp_s0->unk2D0 = (void *) (temp_v0_5 + 8); temp_v0_5->unk4 = 0x60006F0;
 //         temp_v0_5->unk0 = 0xDE000000;
 //         goto block_10;
 //     case 2:
@@ -392,17 +390,11 @@ void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx) {
 //         temp_v1_2 = arg1->unk11DE4;
 //         sp44 = arg1 + 0x10000;
 //         sp58 = temp_v0_6;
-//         sp58->unk4 = Gfx_TwoTexScroll(arg1->unk0, 0, 0, temp_v1_2 & 0xFF, 0x40, 0x40, 1, 0, (0 - temp_v1_2) & 0xFF, 0x40, 0x40);
-//         temp_v0_7 = temp_s0->unk2D0;
-//         temp_s0->unk2D0 = (void *) (temp_v0_7 + 8);
-//         temp_v0_7->unk0 = 0xDB060024;
-//         temp_v1_3 = arg1->unk11DE4;
-//         temp_a3 = temp_v1_3 & 0xFF;
-//         sp54 = temp_v0_7;
-//         sp54->unk4 = Gfx_TwoTexScroll(arg1->unk0, 0, (0 - temp_v1_3) & 0xFF, temp_a3, 0x40, 0x40, 1, temp_a3, temp_a3, 0x40, 0x40);
-//         temp_v0_8 = temp_s0->unk2D0;
-//         temp_s0->unk2D0 = (void *) (temp_v0_8 + 8);
-//         temp_v0_8->unk4 = 0x60012A0;
+//         sp58->unk4 = Gfx_TwoTexScroll(arg1->unk0, 0, 0, temp_v1_2 & 0xFF, 0x40, 0x40, 1, 0, (0 - temp_v1_2) & 0xFF,
+//         0x40, 0x40); temp_v0_7 = temp_s0->unk2D0; temp_s0->unk2D0 = (void *) (temp_v0_7 + 8); temp_v0_7->unk0 =
+//         0xDB060024; temp_v1_3 = arg1->unk11DE4; temp_a3 = temp_v1_3 & 0xFF; sp54 = temp_v0_7; sp54->unk4 =
+//         Gfx_TwoTexScroll(arg1->unk0, 0, (0 - temp_v1_3) & 0xFF, temp_a3, 0x40, 0x40, 1, temp_a3, temp_a3, 0x40,
+//         0x40); temp_v0_8 = temp_s0->unk2D0; temp_s0->unk2D0 = (void *) (temp_v0_8 + 8); temp_v0_8->unk4 = 0x60012A0;
 //         temp_v0_8->unk0 = 0xDE000000;
 //         goto block_10;
 //     case 3:
