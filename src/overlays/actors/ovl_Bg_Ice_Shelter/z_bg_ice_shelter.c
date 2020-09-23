@@ -12,6 +12,8 @@ void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80890740(BgIceShelter* this, GlobalContext* globalCtx);
 void func_80891064(BgIceShelter* this);
 void func_8089107C(BgIceShelter* this, GlobalContext* globalCtx);
+void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx);
+void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
@@ -31,20 +33,17 @@ const ActorInit Bg_Ice_Shelter_InitVars = {
 //     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 // };
 
-// f32 sScales[] = { 0x3DCCCCCD, 0x3D75C28F, 0x3DCCCCCD, 0x3DCCCCCD, 0x3E800000 };
 s32 D_808916F0[] = { 0x3DCCCCCD, 0x3D75C28F, 0x3DCCCCCD, 0x3DCCCCCD, 0x3E800000 };
 
 Color_RGBA8_n D_80891704 = { 0xFA, 0xFA, 0xFA, 0xFF };
 Color_RGBA8_n D_80891708 = { 0xB4, 0xB4, 0xB4, 0xFF };
 
-// ColliderCylinderInit sIceShelterColliderInit = {
 ColliderCylinderInit D_8089170C = {
     { COLTYPE_UNK10, 0x00, 0x21, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 0, 0, 0, { 0, 0, 0 } },
 };
 
-// ColliderCylinderInit sIceShelter2ColliderInit = {
 ColliderCylinderInit D_80891738 = {
     { COLTYPE_UNK12, 0x00, 0x0D, 0x00, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
@@ -52,41 +51,25 @@ ColliderCylinderInit D_80891738 = {
 };
 
 s16 D_80891764[] = { 0x002F, 0x0021, 0x002C, 0x0029, 0x0064, 0x0000 };
-// s16 D_80891770[] = { 0x0050 };
-// s16 D_80891772[] = { 0x0036, 0x005A, 0x003C };
-// s16 D_80891778[] = { 0x00C8 };
-// s32 D_8089177C[] = { 0xB0F404B0, 0xB0F801F4, 0x30FC03E8 };
-// s32 D_80891788[] = { 0x3E3851EC, 0x3E8A3D71, 0x3E75C28F };
-// s32 D_80891794[] = { 0x00004000, 0x20006000, 0x10005000, 0x30007000 };
-// s32 D_808917A4[] = { 0x0000003C, 0x00180054, 0x0030000C, 0x00480024 };
-// s32 D_808917B4[] = { 0xBF800000, 0x3F800000 };
-// s32 D_808917BC[] = { 0xBAC49BA6, 0xBA6BEDFA, 0xBAD1B717, 0xBAD1B717, 0xBB75C28F };
-// s32 D_808917D0[] = { 0x3F800000, 0x3F19999A, 0x3F99999A, 0x3F800000, 0x3FE66666 };
+s16 D_80891770[] = { 0x0050, 0x0036, 0x005A, 0x003C, 0x00C8 };
+s32 D_8089177C[] = { 0xB0F404B0, 0xB0F801F4, 0x30FC03E8 };
+s32 D_80891788[] = { 0x3E3851EC, 0x3E8A3D71, 0x3E75C28F };
+s32 D_80891794[] = { 0x00004000, 0x20006000, 0x10005000, 0x30007000 };
+s32 D_808917A4[] = { 0x0000003C, 0x00180054, 0x0030000C, 0x00480024 };
+s32 D_808917B4[] = { 0xBF800000, 0x3F800000 };
+s32 D_808917BC[] = { 0xBAC49BA6, 0xBA6BEDFA, 0xBAD1B717, 0xBAD1B717, 0xBB75C28F };
+s32 D_808917D0[] = { 0x3F800000, 0x3F19999A, 0x3F99999A, 0x3F800000, 0x3FE66666 };
 
-// extern UNK_TYPE D_808916F0;
-// extern UNK_TYPE D_80891704;
-// extern UNK_TYPE D_80891708;
-// extern UNK_TYPE D_8089170C;
-// extern UNK_TYPE D_80891738;
-// extern UNK_TYPE D_80891764;
-extern UNK_TYPE D_80891770;
-extern UNK_TYPE D_80891772;
-extern UNK_TYPE D_80891778;
-extern UNK_TYPE D_8089177C;
-extern UNK_TYPE D_80891788;
-extern UNK_TYPE D_80891794;
-extern UNK_TYPE D_808917A4;
-extern UNK_TYPE D_808917B4;
-extern UNK_TYPE D_808917BC;
-extern UNK_TYPE D_808917D0;
-extern UNK_TYPE D_808917E4;
-extern UNK_TYPE D_808917F4;
+void* D_808917E4[] = {
+    func_80890B8C,
+    func_80890B8C,
+    func_80890B8C,
+    func_80890E00,
+    func_80890B8C,
+};
+
 extern UNK_TYPE D_06001C1C;
 extern UNK_TYPE D_06002920;
-
-// // static s16 D_80891772[] = { 0x0036, 0x005A, 0x003C };
-
-// extern UNK_TYPE D_80891738;
 
 // void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
 //     s32 pad1;
