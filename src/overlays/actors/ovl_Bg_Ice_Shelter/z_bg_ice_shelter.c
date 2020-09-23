@@ -9,21 +9,21 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80890740(BgIceShelter* this, GlobalContext* globalCtx);
 void func_80891064(BgIceShelter* this);
 void func_8089107C(BgIceShelter* this, GlobalContext* globalCtx);
-void func_80890740(BgIceShelter* this, GlobalContext* globalCtx);
 
-// const ActorInit Bg_Ice_Shelter_InitVars = {
-//     ACTOR_BG_ICE_SHELTER,
-//     ACTORTYPE_BG,
-//     FLAGS,
-//     OBJECT_ICE_OBJECTS,
-//     sizeof(BgIceShelter),
-//     (ActorFunc)BgIceShelter_Init,
-//     (ActorFunc)BgIceShelter_Destroy,
-//     (ActorFunc)BgIceShelter_Update,
-//     (ActorFunc)BgIceShelter_Draw,
-// };
+const ActorInit Bg_Ice_Shelter_InitVars = {
+    ACTOR_BG_ICE_SHELTER,
+    ACTORTYPE_BG,
+    FLAGS,
+    OBJECT_ICE_OBJECTS,
+    sizeof(BgIceShelter),
+    (ActorFunc)BgIceShelter_Init,
+    (ActorFunc)BgIceShelter_Destroy,
+    (ActorFunc)BgIceShelter_Update,
+    (ActorFunc)BgIceShelter_Draw,
+};
 
 // static InitChainEntry sInitChain[] = {
 //     ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
@@ -31,37 +31,44 @@ void func_80890740(BgIceShelter* this, GlobalContext* globalCtx);
 //     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 // };
 
-// static f32 sScales[] = { 0x3DCCCCCD, 0x3D75C28F, 0x3DCCCCCD, 0x3DCCCCCD, 0x3E800000 };
+// f32 sScales[] = { 0x3DCCCCCD, 0x3D75C28F, 0x3DCCCCCD, 0x3DCCCCCD, 0x3E800000 };
+s32 D_808916F0[] = { 0x3DCCCCCD, 0x3D75C28F, 0x3DCCCCCD, 0x3DCCCCCD, 0x3E800000 };
 
-// // Color_RGBA8_n iceColor = {0xFA, 0xFA, 0xFA, 0xFF};
-// // Color_RGBA8_n envColor = {0xB4, 0xB4, 0xB4, 0xFF};
-// Color_RGBA8_n D_80891704 = { 0xFA, 0xFA, 0xFA, 0xFF };
-// Color_RGBA8_n D_80891708 = { 0xB4, 0xB4, 0xB4, 0xFF };
+Color_RGBA8_n D_80891704 = { 0xFA, 0xFA, 0xFA, 0xFF };
+Color_RGBA8_n D_80891708 = { 0xB4, 0xB4, 0xB4, 0xFF };
 
-// static ColliderCylinderInit sIceShelterColliderInit = {
-//     { COLTYPE_UNK10, 0x00, 0x21, 0x39, 0x20, COLSHAPE_CYLINDER },
-//     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-//     { 0, 0, 0, { 0, 0, 0 } },
-// };
+// ColliderCylinderInit sIceShelterColliderInit = {
+ColliderCylinderInit D_8089170C = {
+    { COLTYPE_UNK10, 0x00, 0x21, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 0, 0, 0, { 0, 0, 0 } },
+};
 
-// static ColliderCylinderInit sIceShelter2ColliderInit = {
-//     { COLTYPE_UNK12, 0x00, 0x0D, 0x00, 0x20, COLSHAPE_CYLINDER },
-//     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-//     { 0, 0, 0, { 0, 0, 0 } },
-// };
+// ColliderCylinderInit sIceShelter2ColliderInit = {
+ColliderCylinderInit D_80891738 = {
+    { COLTYPE_UNK12, 0x00, 0x0D, 0x00, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 0, 0, 0, { 0, 0, 0 } },
+};
 
-// static s16 D_80891764[] = { 0x002F, 0x0021, 0x002C, 0x0029, 0x0064, 0x0000 };
-// static s16 D_80891770[] = { 0x0050 };
-// static s8 D_80891772[] = { 0x00, 0x36, 0x00, 0x5A, 0x00, 0x3C };
-// static s8 D_80891778[] = {0x00, 0xC8, 0x00, 0x00};
-// static s32 D_8089177C[] = { 0xB0F404B0, 0xB0F801F4, 0x30FC03E8 };
+s16 D_80891764[] = { 0x002F, 0x0021, 0x002C, 0x0029, 0x0064, 0x0000 };
+// s16 D_80891770[] = { 0x0050 };
+// s16 D_80891772[] = { 0x0036, 0x005A, 0x003C };
+// s16 D_80891778[] = { 0x00C8 };
+// s32 D_8089177C[] = { 0xB0F404B0, 0xB0F801F4, 0x30FC03E8 };
+// s32 D_80891788[] = { 0x3E3851EC, 0x3E8A3D71, 0x3E75C28F };
+// s32 D_80891794[] = { 0x00004000, 0x20006000, 0x10005000, 0x30007000 };
+// s32 D_808917A4[] = { 0x0000003C, 0x00180054, 0x0030000C, 0x00480024 };
+// s32 D_808917B4[] = { 0xBF800000, 0x3F800000 };
+// s32 D_808917BC[] = { 0xBAC49BA6, 0xBA6BEDFA, 0xBAD1B717, 0xBAD1B717, 0xBB75C28F };
+// s32 D_808917D0[] = { 0x3F800000, 0x3F19999A, 0x3F99999A, 0x3F800000, 0x3FE66666 };
 
-extern UNK_TYPE D_808916F0;
-extern UNK_TYPE D_80891704;
-extern UNK_TYPE D_80891708;
-extern UNK_TYPE D_8089170C;
-extern UNK_TYPE D_80891738;
-extern UNK_TYPE D_80891764;
+// extern UNK_TYPE D_808916F0;
+// extern UNK_TYPE D_80891704;
+// extern UNK_TYPE D_80891708;
+// extern UNK_TYPE D_8089170C;
+// extern UNK_TYPE D_80891738;
+// extern UNK_TYPE D_80891764;
 extern UNK_TYPE D_80891770;
 extern UNK_TYPE D_80891772;
 extern UNK_TYPE D_80891778;
@@ -77,37 +84,81 @@ extern UNK_TYPE D_808917F4;
 extern UNK_TYPE D_06001C1C;
 extern UNK_TYPE D_06002920;
 
-
 // // static s16 D_80891772[] = { 0x0036, 0x005A, 0x003C };
 
 // extern UNK_TYPE D_80891738;
 
 // void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
-//     void* temp_v1;
+//     s32 pad1;
+//     s16* temp_v1;
 //     s32 sp30;
-//     // s32 pad1;
-//     // s32 pad2;
 
 //     sp30 = (this->dyna.actor.params >> 8) & 7;
 //     Collider_InitCylinder(globalCtx, &this->colliders[0]);
-//     Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, (void*)&D_8089170C);
+//     Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sIceShelterColliderInit);
 //     Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
 
-//     this->colliders[0].dim.radius = *(((s16 *)&D_80891764) + sp30);
-//     this->colliders[0].dim.height = *(((s16 *)&D_80891770) + sp30);
+//     this->colliders[0].dim.radius = D_80891764[sp30];
+//     this->colliders[0].dim.height = D_80891770[sp30];
 
-//     // if (sp30 == 0 || D_80891770[sp30] == D_80891772[sp30] || D_80891770[sp30] == D_80891778[0]) {
-//     //     Collider_InitCylinder(globalCtx, &this->colliders[1]);
-//     //     Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sIceShelter2ColliderInit);
-//     //     Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
-//     //     this->colliders[1].dim.radius = D_80891764[sp30];
-//     //     this->colliders[1].dim.radius = D_80891770[sp30];
-//     // }
+//     if (sp30 == 0 || D_80891770 == D_80891772 || D_80891770 == D_80891778) {
+//         Collider_InitCylinder(globalCtx, &this->colliders[1]);
+//         Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sIceShelter2ColliderInit);
+//         Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
 
-//     // if (D_80891770[sp30] == &D_80891778) {
-//     //     this->colliders[0].dim.pos.z += 0x1E;
-//     //     this->colliders[1].dim.pos.z += 0x1E;
-//     // }
+//         this->colliders[1].dim.radius = D_80891764[sp30];
+//         this->colliders[1].dim.height = D_80891770[sp30];
+//     }
+
+//     if (temp_v1 == D_80891778) {
+//         this->colliders[0].dim.pos.z += 0x1E;
+//         this->colliders[1].dim.pos.z += 0x1E;
+//     }
+// }
+
+// s32 func_80890740(void *arg0, s32 arg1) {
+//     s32 sp30;
+//     void *sp2C;
+//     void *sp28;
+//     void *sp24;
+//     s32 temp_ret;
+//     s32 temp_v0;
+//     void *temp_a1;
+//     void *temp_a1_2;
+//     void *temp_a2;
+//     void *temp_v1;
+//     s32 phi_return;
+
+//     temp_a1 = arg0 + 0x168;
+//     sp30 = ((s32) arg0->unk1C >> 8) & 7;
+//     sp2C = temp_a1;
+//     Collider_InitCylinder(arg1, temp_a1);
+//     Collider_SetCylinder(arg1, temp_a1, arg0, &D_8089170C);
+//     Collider_CylinderUpdate(arg0, temp_a1);
+//     temp_v0 = sp30 * 2;
+//     temp_a2 = temp_v0 + &D_80891764;
+//     temp_v1 = temp_v0 + &D_80891770;
+//     arg0->unk1A8 = (s16) *temp_a2;
+//     arg0->unk1AA = (s16) *temp_v1;
+//     if (((sp30 == 0) || (temp_v1 == &D_80891772)) || (phi_return = temp_v0, (temp_v1 == &D_80891778))) {
+//         temp_a1_2 = arg0 + 0x1B4;
+//         sp24 = temp_a1_2;
+//         sp28 = temp_v1;
+//         sp2C = temp_a2;
+//         Collider_InitCylinder(arg1, temp_a1_2, temp_a2);
+//         Collider_SetCylinder(arg1, temp_a1_2, arg0, &D_80891738);
+//         temp_ret = Collider_CylinderUpdate(arg0, temp_a1_2);
+//         arg0->unk1F4 = (s16) *sp2C;
+//         arg0->unk1F6 = (s16) *temp_v1;
+//         phi_return = temp_ret;
+//     } else {
+
+//     }
+//     if ((temp_v0 + &D_80891770) == &D_80891778) {
+//         arg0->unk1B2 = (s16) (arg0->unk1B2 + 0x1E);
+//         arg0->unk1FE = (s16) (arg0->unk1FE + 0x1E);
+//     }
+//     return phi_return;
 // }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890740.s")
