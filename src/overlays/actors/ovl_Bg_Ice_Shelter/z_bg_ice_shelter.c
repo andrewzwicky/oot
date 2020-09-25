@@ -38,12 +38,14 @@ s32 D_808916F0[] = { 0x3DCCCCCD, 0x3D75C28F, 0x3DCCCCCD, 0x3DCCCCCD, 0x3E800000 
 Color_RGBA8_n D_80891704 = { 0xFA, 0xFA, 0xFA, 0xFF };
 Color_RGBA8_n D_80891708 = { 0xB4, 0xB4, 0xB4, 0xFF };
 
+// ColliderCylinderInit sIceShelterColliderInit = {
 ColliderCylinderInit D_8089170C = {
     { COLTYPE_UNK10, 0x00, 0x21, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 0, 0, 0, { 0, 0, 0 } },
 };
 
+// ColliderCylinderInit sIceShelter2ColliderInit = {
 ColliderCylinderInit D_80891738 = {
     { COLTYPE_UNK12, 0x00, 0x0D, 0x00, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFF6, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
@@ -61,117 +63,38 @@ s32 D_808917BC[] = { 0xBAC49BA6, 0xBA6BEDFA, 0xBAD1B717, 0xBAD1B717, 0xBB75C28F 
 s32 D_808917D0[] = { 0x3F800000, 0x3F19999A, 0x3F99999A, 0x3F800000, 0x3FE66666 };
 
 void* D_808917E4[] = {
-    func_80890B8C,
-    func_80890B8C,
-    func_80890B8C,
-    func_80890E00,
-    func_80890B8C,
+    func_80890B8C, func_80890B8C, func_80890B8C, func_80890E00, func_80890B8C,
 };
 
 extern UNK_TYPE D_06001C1C;
 extern UNK_TYPE D_06002920;
 
-// void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
-//     s32 pad1;
-//     s16* temp_v1;
-//     s32 sp30;
+void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 sp30;
 
-//     sp30 = (this->dyna.actor.params >> 8) & 7;
-//     Collider_InitCylinder(globalCtx, &this->colliders[0]);
-//     Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sIceShelterColliderInit);
-//     Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
+    sp30 = (this->dyna.actor.params >> 8) & 7;
+    Collider_InitCylinder(globalCtx, &this->colliders[0]);
+    Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &D_8089170C);
+    Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
 
-//     this->colliders[0].dim.radius = D_80891764[sp30];
-//     this->colliders[0].dim.height = D_80891770[sp30];
+    this->colliders[0].dim.radius = D_80891764[sp30];
+    this->colliders[0].dim.height = D_80891770[sp30];
 
-//     if (sp30 == 0 || D_80891770 == D_80891772 || D_80891770 == D_80891778) {
-//         Collider_InitCylinder(globalCtx, &this->colliders[1]);
-//         Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sIceShelter2ColliderInit);
-//         Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
+    if (sp30 == 0 || sp30 == 1 || sp30 == 4) {
+        Collider_InitCylinder(globalCtx, &this->colliders[1]);
+        Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &D_80891738);
+        Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
+        this->colliders[1].dim.radius = D_80891764[sp30];
+        this->colliders[1].dim.height = D_80891770[sp30];
+    }
 
-//         this->colliders[1].dim.radius = D_80891764[sp30];
-//         this->colliders[1].dim.height = D_80891770[sp30];
-//     }
+    if (sp30 == 4) {
+        this->colliders[0].dim.pos.z += 30;
+        this->colliders[1].dim.pos.z += 30;
+    }
+}
 
-//     if (temp_v1 == D_80891778) {
-//         this->colliders[0].dim.pos.z += 0x1E;
-//         this->colliders[1].dim.pos.z += 0x1E;
-//     }
-// }
-
-// s32 func_80890740(void *arg0, s32 arg1) {
-//     s32 sp30;
-//     void *sp2C;
-//     void *sp28;
-//     void *sp24;
-//     s32 temp_ret;
-//     s32 temp_v0;
-//     void *temp_a1;
-//     void *temp_a1_2;
-//     void *temp_a2;
-//     void *temp_v1;
-//     s32 phi_return;
-
-//     temp_a1 = arg0 + 0x168;
-//     sp30 = ((s32) arg0->unk1C >> 8) & 7;
-//     sp2C = temp_a1;
-//     Collider_InitCylinder(arg1, temp_a1);
-//     Collider_SetCylinder(arg1, temp_a1, arg0, &D_8089170C);
-//     Collider_CylinderUpdate(arg0, temp_a1);
-//     temp_v0 = sp30 * 2;
-//     temp_a2 = temp_v0 + &D_80891764;
-//     temp_v1 = temp_v0 + &D_80891770;
-//     arg0->unk1A8 = (s16) *temp_a2;
-//     arg0->unk1AA = (s16) *temp_v1;
-//     if (((sp30 == 0) || (temp_v1 == &D_80891772)) || (phi_return = temp_v0, (temp_v1 == &D_80891778))) {
-//         temp_a1_2 = arg0 + 0x1B4;
-//         sp24 = temp_a1_2;
-//         sp28 = temp_v1;
-//         sp2C = temp_a2;
-//         Collider_InitCylinder(arg1, temp_a1_2, temp_a2);
-//         Collider_SetCylinder(arg1, temp_a1_2, arg0, &D_80891738);
-//         temp_ret = Collider_CylinderUpdate(arg0, temp_a1_2);
-//         arg0->unk1F4 = (s16) *sp2C;
-//         arg0->unk1F6 = (s16) *temp_v1;
-//         phi_return = temp_ret;
-//     } else {
-
-//     }
-//     if ((temp_v0 + &D_80891770) == &D_80891778) {
-//         arg0->unk1B2 = (s16) (arg0->unk1B2 + 0x1E);
-//         arg0->unk1FE = (s16) (arg0->unk1FE + 0x1E);
-//     }
-//     return phi_return;
-// }
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890740.s")
-// void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
-//     void* temp_v1;
-//     s32 sp30;
-
-//     sp30 = (this->dyna.actor.params >> 8) & 7;
-//     Collider_InitCylinder(globalCtx, &this->colliders[0]);
-//     Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sIceShelterColliderInit);
-//     Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
-
-//     this->colliders[0].dim.radius = D_80891764[sp30];
-//     this->colliders[0].dim.height = D_80891770[sp30];
-
-//     if (sp30 == 0 || D_80891770[sp30] == D_80891772[sp30] || D_80891770[sp30] == D_80891778[0]) {
-//         Collider_InitCylinder(globalCtx, &this->colliders[1]);
-//         Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sIceShelter2ColliderInit);
-//         Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
-//         this->colliders[1].dim.radius = D_80891764[sp30];
-//         this->colliders[1].dim.radius = D_80891770[sp30];
-//     }
-
-//     // if (D_80891770[sp30] == &D_80891778) {
-//     //     this->colliders[0].dim.pos.z += 0x1E;
-//     //     this->colliders[1].dim.pos.z += 0x1E;
-//     // }
-// }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890874.s")
 void func_80890874(BgIceShelter* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
     s16 pad1;
     u32 local_c = 0;
@@ -187,16 +110,17 @@ void func_80890874(BgIceShelter* this, GlobalContext* globalCtx, u32 collision, 
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_808908FC.s")
-// BgIceShelter *func_808908FC(BgIceShelter* this, GlobalContext* globalCtx, s16 arg2) {
+// void func_808908FC(BgIceShelter* this, GlobalContext* globalCtx, s16 arg2) {
 //     f32 sp1C;
 //     f32 temp_f0;
+
 //     sp1C = Math_Sins(arg2);
 //     temp_f0 = Math_Coss(arg2);
-//     this->dyna.actor.initPosRot.pos = (f32) ((globalCtx->state.destroy * sp1C) + (arg1->unk0 * temp_f0));
-//     // this->dyna.actor.flags = globalCtx->state.main;
-//     // this->dyna.actor.initPosRot.pos.x = (f32) ((arg1->unk8 * temp_f0) - (arg1->unk0 * sp1C));
-//     return this;
+//     // this->dyna.actor.id = (f32) ((globalCtx->state. * sp1C) + (arg1->unk0 * temp_f0));
+//     // arg0->unk4 = (f32) arg1->unk4;
+//     // arg0->unk8 = (f32) ((arg1->unk8 * temp_f0) - (arg1->unk0 * sp1C));
 // }
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/BgIceShelter_Init.s")
 // void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
