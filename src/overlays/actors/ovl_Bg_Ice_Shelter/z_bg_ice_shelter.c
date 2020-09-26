@@ -110,18 +110,16 @@ void func_80890874(BgIceShelter* this, GlobalContext* globalCtx, u32 collision, 
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_808908FC.s")
-// void func_808908FC(BgIceShelter* this, GlobalContext* globalCtx, s16 arg2) {
-//     f32 sp1C;
-//     f32 temp_f0;
+void func_808908FC(Vec3f* arg0, Vec3f* arg1, s16 arg2) {
+    f32 sp1C;
+    f32 temp_f0;
 
-//     sp1C = Math_Sins(arg2);
-//     temp_f0 = Math_Coss(arg2);
-//     // this->dyna.actor.id = (f32) ((globalCtx->state. * sp1C) + (arg1->unk0 * temp_f0));
-//     // arg0->unk4 = (f32) arg1->unk4;
-//     // arg0->unk8 = (f32) ((arg1->unk8 * temp_f0) - (arg1->unk0 * sp1C));
-// }
-
+    sp1C = Math_Sins(arg2);
+    temp_f0 = Math_Coss(arg2);
+    arg0->x = (arg1->z * sp1C) + (arg1->x * temp_f0);
+    arg0->y = arg1->y;
+    arg0->z = (arg1->z * temp_f0) - (arg1->x * sp1C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/BgIceShelter_Init.s")
 // void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
