@@ -288,11 +288,10 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80891064.s")
-// void func_80891064(BgIceShelter* this) {
-//     this->actionFunc = &func_8089107C;
-//     this->colliders[2].base.shape = 0xFF;  // TODO: refactor this to match
-// }
+void func_80891064(BgIceShelter* this) {
+    this->actionFunc = &func_8089107C;
+    this->UNK_200 = 0xFF;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_8089107C.s")
 // void func_8089107C(void *arg0, s32 arg1) {

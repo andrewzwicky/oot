@@ -12,7 +12,8 @@ typedef struct BgIceShelter {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgIceShelterActionFunc actionFunc;
     /* 0x0168 */ ColliderCylinder colliders[2];
-    /* 0x0200 */ s32 UNK_200;
+    /* 0x0200 */ s16 UNK_200;
+    /* 0x0202 */ s16 UNK_202;
 } BgIceShelter; // size = 0x0204
 
 extern const ActorInit Bg_Ice_Shelter_InitVars;
