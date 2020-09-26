@@ -12,6 +12,7 @@ void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80890740(BgIceShelter* this, GlobalContext* globalCtx);
 void func_80891064(BgIceShelter* this);
 void func_8089107C(BgIceShelter* this, GlobalContext* globalCtx);
+void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx);
 void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx);
 void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx);
 
@@ -349,11 +350,10 @@ void func_80891064(BgIceShelter* this) {
 //     CollisionCheck_SetAC(arg1, phi_a1, phi_a3, phi_a3);
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_808911BC.s")
-// void func_808911BC(BgIceShelter* this) {
-//     this->actionFunc = &func_808911D4;
-//     arg0->unk200 = (u16)0xFF;
-// }
+void func_808911BC(BgIceShelter* this) {
+    this->actionFunc = &func_808911D4;
+    this->UNK_200 = 0xFF;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_808911D4.s")
 // void func_808911D4(void *arg0, s32 arg1) {
