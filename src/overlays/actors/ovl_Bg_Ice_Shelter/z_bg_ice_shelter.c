@@ -16,6 +16,7 @@ void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx);
 // void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx);
 void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx, f32 arg2, f32 arg3);
 void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx, f32 arg2, f32 arg3);
+void func_808911BC(BgIceShelter* this);
 
 const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
@@ -332,61 +333,45 @@ void func_80891064(BgIceShelter* this) {
     this->UNK_200 = 0xFF;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_8089107C.s")
-// void func_8089107C(void *arg0, s32 arg1) {
-//     s16 sp32;
-//     s32 sp28;
-//     void *sp24;
-//     s32 temp_a1;
-//     s32 temp_a2;
-//     u8 temp_v0_2;
-//     void *temp_a3;
-//     void *temp_v0;
-//     void *temp_v0_3;
-//     void *temp_v1;
-//     s32 phi_a1;
-//     void *phi_a3;
-//     temp_a2 = (((s32) arg0->unk1C >> 8) & 7) << 0x10;
-//     temp_a2 = temp_a2 >> 0x10;
-//     if (temp_a2 == 4) {
-//         temp_v0 = arg0->unk118;
-//         if (temp_v0 != 0) {
-//             temp_v0->unk110 = (u16)0x2710;
-//         }
-//     }
-//     temp_v0_2 = arg0->unk179;
-//     if ((temp_v0_2 & 2) != 0) {
-//         temp_v1 = arg0->unk170;
-//         arg0->unk179 = (u8) (temp_v0_2 & 0xFFFD);
-//         if (temp_v1 != 0) {
-//             if (*temp_v1 == 0xF0) {
-//                 if (temp_a2 == 4) {
-//                     temp_v0_3 = arg0->unk118;
-//                     if (temp_v0_3 != 0) {
-//                         temp_v0_3->unk110 = (u16)0x32;
-//                     }
-//                 }
-//                 sp32 = (s16) temp_a2;
-//                 func_808911BC(arg0, temp_a2, 4);
-//                 Audio_PlayActorSound2(arg0, 0x28A2);
-//             }
-//         }
-//     }
-//     if ((((temp_a2 >> 0x10) != 0) && ((temp_a2 >> 0x10) != 1)) && ((temp_a2 >> 0x10) != 4)) {
-//         phi_a1 = arg1 + 0x11E60;
-//         phi_a3 = arg0 + 0x168;
-//     } else {
-//         temp_a3 = arg0 + 0x168;
-//         temp_a1 = arg1 + 0x11E60;
-//         sp28 = temp_a1;
-//         sp24 = temp_a3;
-//         CollisionCheck_SetOC(arg1, temp_a1, temp_a3, temp_a3);
-//         CollisionCheck_SetAC(arg1, temp_a1, arg0 + 0x1B4);
-//         phi_a1 = temp_a1;
-//         phi_a3 = temp_a3;
-//     }
-//     CollisionCheck_SetAC(arg1, phi_a1, phi_a3, phi_a3);
-// }
+void func_8089107C(BgIceShelter* this, GlobalContext* globalCtx) {
+    Actor* temp_v1;
+    s16 temp_a2;
+    s16 pad;
+    Actor* temp_v0_3;
+
+    temp_a2 = (s16)((this->dyna.actor.params >> 8) & 7);
+
+    if (temp_a2 == 4) {
+        temp_v0_3 = this->dyna.actor.parent;
+        if (temp_v0_3 != NULL) {
+            temp_v0_3->freezeTimer = 10000;
+        }
+    }
+
+    if ((this->colliders[0].base.acFlags & 2) != 0) {
+        temp_v1 = this->colliders[0].base.ac;
+        this->colliders[0].base.acFlags = (this->colliders[0].base.acFlags & 0xFFFD);
+        if (temp_v1 != NULL) {
+            if (temp_v1->id == 0xF0) {
+                if (temp_a2 == 4) {
+                    temp_v0_3 = this->dyna.actor.parent;
+                    if (temp_v0_3 != NULL) {
+                        temp_v0_3->freezeTimer = 50;
+                    }
+                }
+                func_808911BC(this);
+                Audio_PlayActorSound2(&this->dyna.actor, 0x28A2);
+            }
+        }
+    }
+
+    if ((temp_a2 != 0) && (temp_a2 != 1) && (temp_a2 != 4)) {
+    } else {
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0]);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1]);
+    }
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0]);
+}
 
 void func_808911BC(BgIceShelter* this) {
     this->actionFunc = &func_808911D4;
