@@ -57,13 +57,13 @@ ColliderCylinderInit D_80891738 = {
 
 s16 D_80891764[] = { 0x002F, 0x0021, 0x002C, 0x0029, 0x0064, 0x0000 };
 s16 D_80891770[] = { 0x0050, 0x0036, 0x005A, 0x003C, 0x00C8 };
-s32 D_8089177C[] = { 0xB0F404B0, 0xB0F801F4, 0x30FC03E8 };
+// s32 D_8089177C[] = { 0xB0F404B0, 0xB0F801F4, 0x30FC03E8 };
 
-// static InitChainEntry D_8089177C[] = {
-//     ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
-//     ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
-//     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
-// };
+static InitChainEntry D_8089177C[] = {
+    ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
+};
 
 Vec3f D_80891788 = { 0.18f, 0.27f, 0.24f };
 s32 D_80891794[] = { 0x00004000, 0x20006000, 0x10005000, 0x30007000 };
@@ -130,52 +130,53 @@ void func_808908FC(Vec3f* arg0, Vec3f* arg1, s16 arg2) {
     arg0->z = (arg1->z * temp_f0) - (arg1->x * sp1C);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/BgIceShelter_Init.s")
-// void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
-//     BgIceShelter* this = (BgIceShelter*)thisx;
-//     s16 temp_v0;
+void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgIceShelter* this = (BgIceShelter*)thisx;
+    s16 temp_v0;
 
-//     temp_v0 = (this->dyna.actor.params >> 8) & 7;
-//     Actor_ProcessInitChain(&this->dyna.actor, &D_8089177C);
-//     // Actor_ProcessInitChain(&this->dyna.actor, D_8089177C);
-//     if (temp_v0 == 4) {
-//         this->dyna.actor.posRot.rot.x = this->dyna.actor.posRot.rot.x + 3000;
-//         this->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y - 45.0f;
-//         this->dyna.actor.posRot.pos.z = this->dyna.actor.posRot.pos.z - 38.0f;
-//         this->dyna.actor.shape.rot.x = this->dyna.actor.posRot.rot.x;
-//     }
+    temp_v0 = ((this->dyna.actor.params >> 8) & 7);
 
-//     if (temp_v0 == 4) {
-//         Math_Vec3f_Copy(&this->dyna.actor.scale, &D_80891788);
-//     } else {
-//         Actor_SetScale(&this->dyna.actor, D_808916F0[temp_v0]);
-//         // Actor_SetScale(&this->dyna.actor, *(((f32 *)D_808916F0) + temp_v0));
-//     }
+    Actor_ProcessInitChain(&this->dyna.actor, D_8089177C);
 
-//     switch (temp_v0) {
-//         case 2:
-//             func_80890874(this, globalCtx, &D_06001C1C, 0);
-//             break;
+    if (temp_v0 == 4) {
+        this->dyna.actor.posRot.rot.x = this->dyna.actor.posRot.rot.x + 3000;
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y - 45.0f;
+        this->dyna.actor.posRot.pos.z = this->dyna.actor.posRot.pos.z - 38.0f;
+        this->dyna.actor.shape.rot.x = this->dyna.actor.posRot.rot.x;
+    }
 
-//         case 3:
-//             func_80890874(this, globalCtx, &D_06002920, 0);
-//             break;
+    if (temp_v0 == 4) {
+        Math_Vec3f_Copy(&this->dyna.actor.scale, &D_80891788);
+    } else {
+        Actor_SetScale(&this->dyna.actor, D_808916F0[temp_v0]);
+        // Actor_SetScale(&this->dyna.actor, *(((f32 *)D_808916F0) + temp_v0));
+    }
 
-//         default:
-//             break;
-//     }
+    switch (temp_v0) {
+        case 2:
+            func_80890874(this, globalCtx, &D_06001C1C, 0);
+            break;
 
-//     func_80890740(&this, globalCtx);
-//     this->dyna.actor.colChkInfo.mass = 255;
+        case 3:
+            func_80890874(this, globalCtx, &D_06002920, 0);
+            break;
 
-//     if (!((this->dyna.actor.params >> 6) & 0x1) && (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F))) {
-//         Actor_Kill(&this->dyna.actor);
-//         return;
-//     }
+        default:
+            break;
+    }
 
-//     func_80891064(&this->dyna.actor);
-//     osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
-// }
+    func_80890740(this, globalCtx);
+
+    this->dyna.actor.colChkInfo.mass = 255;
+
+    if (!((this->dyna.actor.params >> 6) & 0x1) && (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F))) {
+        Actor_Kill(&this->dyna.actor);
+        return;
+    }
+
+    func_80891064(&this->dyna.actor);
+    osSyncPrintf("(ice shelter)(arg_data 0x%04x)\n", this->dyna.actor.params);
+}
 
 void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgIceShelter* this = (BgIceShelter*)thisx;
@@ -262,42 +263,34 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890E00.s")
 // void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx, f32 arg2, f32 arg3) {
 //     Vec3f vec_1;
-//     // f32 spBC;
-//     // f32 spB8;
-//     // f32 spB4;
 //     Vec3f vec_2;
-//     // f32 spB0;
-//     // f32 spAC;
-//     // f32 spA8;
 //     Vec3f vec_3;
-//     // f32 spA4;
-//     // f32 spA0;
-//     // f32 sp9C;
+
+//     s32 pad[4];
+
 //     f32 sp98;
-//     f32 temp_f10;
 //     f32 temp_f6;
-//     f32 temp_f6_2;
-//     s32 temp_s3;
 //     s16 temp_s6;
 //     s32 phi_s3;
 
-//     temp_s6 = globalCtx->state.frames & 7;
+//     temp_s6 = (s16)globalCtx->state.frames & 7;
+
 //     phi_s3 = 0;
 // loop_1:
 //     if (!(arg2 < Math_Rand_ZeroOne())) {
 //         temp_f6 = Math_Rand_ZeroOne() * 12.0f;
+//         sp98 = D_808917B4[phi_s3] * (D_808917A4[temp_s6] + temp_f6 - 6.0f);
 //         vec_3.z = 15.0f;
-//         sp98 = D_808917B4[phi_s3] * ((f32)D_808917A4[temp_s6]) + (temp_f6 - 6.0f);
 //         vec_3.y = (Math_Rand_ZeroOne() * 20.0f) + ((84.0f - sp98) * 0.2f);
 //         func_808908FC(&vec_1, &sp98, this->dyna.actor.posRot.rot.x);
 //         Math_Vec3f_Sum(&vec_1, &this->dyna.actor.posRot.pos, &vec_1);
-//         temp_f6_2 = Math_Rand_ZeroOne() * 3.0f;
+//         temp_f6 = Math_Rand_ZeroOne() * 3.0f;
 //         vec_1.z = 0.0f;
-//         vec_2.x = temp_f6_2 - 1.5f;
+//         vec_2.x = temp_f6 - 1.5f;
 //         vec_1.y = (Math_Rand_ZeroOne() * 3.0f) - 1.5f;
-//         temp_f10 = Math_Rand_ZeroOne() * 0.14f;
+//         temp_f6 = Math_Rand_ZeroOne() * 0.14f;
 //         vec_2.z = 0.8f;
-//         vec_3.x = temp_f10 - 0.07f;
+//         vec_3.x = temp_f6 - 0.07f;
 //         vec_2.y = (Math_Rand_ZeroOne() * 0.14f) - 0.07f;
 //         func_8002829C(
 //             globalCtx,
@@ -309,21 +302,9 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //             450,
 //             (s16) ((Math_Rand_ZeroOne() * 40.0f) + 40.0f)
 //         );
-//         /*
-//         void func_8002829C(
-//             GlobalContext* globalCtx,
-//             Vec3f* pos,
-//             Vec3f* velocity,
-//             Vec3f* accel,
-//             Color_RGBA8_n* primColor,
-//             Color_RGBA8_n* envColor,
-//             s16 scale,
-//             s16 scaleStep
-//         */
 //     }
-//     // temp_s3 = phi_s3 + 1;
-//     // phi_s3 = temp_s3;
-//     if (++phi_s3 != 2) {
+
+//     if (++phi_s3 != 2){
 //         goto loop_1;
 //     }
 // }
