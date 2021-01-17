@@ -67,7 +67,7 @@ static InitChainEntry D_8089177C[] = {
 
 Vec3f D_80891788 = { 0.18f, 0.27f, 0.24f };
 s32 D_80891794[] = { 0x00004000, 0x20006000, 0x10005000, 0x30007000 };
-s32 D_808917A4[] = { 0x0000003C, 0x00180054, 0x0030000C, 0x00480024 };
+s16 D_808917A4[] = { 0x0000, 0x0003C, 0x0018, 0x0054, 0x0030, 0x000C, 0x0048, 0x0024 };
 f32 D_808917B4[] = { -1.0f, 1.0f };
 f32 D_808917BC[] = { -0.0015f, -0.0009f, -0.0016f, -0.0016f, -0.00375f };
 f32 D_808917D0[] = { 1.0f, 0.6f, 1.2f, 1.0f, 1.8f };
@@ -149,7 +149,6 @@ void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&this->dyna.actor.scale, &D_80891788);
     } else {
         Actor_SetScale(&this->dyna.actor, D_808916F0[temp_v0]);
-        // Actor_SetScale(&this->dyna.actor, *(((f32 *)D_808916F0) + temp_v0));
     }
 
     switch (temp_v0) {
@@ -214,7 +213,6 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //     s32 phi_s2;
 //     temp_s4 = (globalCtx->state.frames & 7);
 //     phi_s2 = 0;
-
 // loop_1:
 //     if (!(arg2 < Math_Rand_ZeroOne())) {
 //         temp_f22 = 42.0f * arg3;
@@ -224,13 +222,10 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //         temp_f0 = Math_Coss(temp_s1);
 //         temp_f24 = temp_f0;
 //         temp_f18 = temp_f22 * temp_f0;
-
 //         temp1.x = (temp_f22 * temp_f20) + temp_s0->pos.x;
 //         temp1.y = (16.0f * arg3) + temp_s0->pos.y;
 //         temp1.x = temp_f18 + temp_s0->pos.z;
-
 //         temp_f8 = Math_Rand_ZeroOne() * 3.0f;
-
 //         temp2.y = 0.0f;
 //         temp2.z = (temp_f8 - 1.0f) * temp_f20;
 //         temp_f10 = (Math_Rand_ZeroOne() * 3.0f) - 1.0f;
@@ -247,11 +242,9 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //             &D_80891708,
 //             (s16)(450.0f * arg3),
 //             (s32) ((f32) ((s32) ((s32) ((Math_Rand_ZeroOne() * 40.0f) + 40.0f) << 0x10) >> 0x10) * arg3));
-
 // //         void func_8002829C(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel, Color_RGBA8_n*
 // primColor,
 // //                    Color_RGBA8_n* envColor, s16 scale, s16 scaleStep) {
-
 //     }
 //     temp_s2 = phi_s2 + 1;
 //     phi_s2 = temp_s2;
@@ -260,52 +253,83 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890E00.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shelter/func_80890E00.s")
+void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx, f32 arg2, f32 arg3) {
+    Vec3f vec_pos;
+    Vec3f vec_vel;
+    Vec3f vec_acc;
+    f32 temp_f6;
+    s16 temp_s6;
+    s32 phi_s3;
+
+    s32 pad[5];
+
+    temp_s6 = (s16)globalCtx->state.frames & 7;
+
+    phi_s3 = 0;
+loop_1:
+    if (!(arg2 < Math_Rand_ZeroOne())) {
+        temp_f6 = Math_Rand_ZeroOne() * 12.0f;
+        vec_acc.y = 15.0f;
+        vec_acc.z = D_808917A4[phi_s3] * (D_808917B4[temp_s6] + temp_f6 - 6.0f);
+        vec_acc.x = (Math_Rand_ZeroOne() * 20.0f) + ((84.0f - vec_acc.z) * 0.2f);
+        func_808908FC(&vec_pos, &vec_acc, this->dyna.actor.posRot.rot.y);
+        Math_Vec3f_Sum(&vec_pos, &this->dyna.actor.posRot.pos, &vec_pos);
+        temp_f6 = Math_Rand_ZeroOne() * 3.0f;
+        vec_pos.y = 0.0f;
+        vec_pos.z = temp_f6 - 1.5f;
+        vec_pos.x = (Math_Rand_ZeroOne() * 3.0f) - 1.5f;
+        temp_f6 = Math_Rand_ZeroOne() * 0.14f;
+        vec_vel.y = 0.8f;
+        vec_vel.z = temp_f6 - 0.07f;
+        vec_vel.x = (Math_Rand_ZeroOne() * 0.14f) - 0.07f;
+        func_8002829C(globalCtx, &vec_pos, &vec_vel, &vec_acc, &D_80891704, &D_80891708, 450,
+            (s16)((Math_Rand_ZeroOne() * 40.0f) + 40.0f));
+    }
+
+    if (++phi_s3 != 2) {
+        goto loop_1;
+    }
+}
+
+
 // void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx, f32 arg2, f32 arg3) {
+//     f32 temp_f6;
+//     s32 phi_s3;
+//     s16 temp_s6;
+
 //     Vec3f vec_1;
 //     Vec3f vec_2;
 //     Vec3f vec_3;
-
+    
 //     s32 pad[4];
-
-//     f32 sp98;
-//     f32 temp_f6;
-//     s16 temp_s6;
-//     s32 phi_s3;
 
 //     temp_s6 = (s16)globalCtx->state.frames & 7;
 
-//     phi_s3 = 0;
-// loop_1:
-//     if (!(arg2 < Math_Rand_ZeroOne())) {
-//         temp_f6 = Math_Rand_ZeroOne() * 12.0f;
-//         sp98 = D_808917B4[phi_s3] * (D_808917A4[temp_s6] + temp_f6 - 6.0f);
-//         vec_3.z = 15.0f;
-//         vec_3.y = (Math_Rand_ZeroOne() * 20.0f) + ((84.0f - sp98) * 0.2f);
-//         func_808908FC(&vec_1, &sp98, this->dyna.actor.posRot.rot.x);
-//         Math_Vec3f_Sum(&vec_1, &this->dyna.actor.posRot.pos, &vec_1);
-//         temp_f6 = Math_Rand_ZeroOne() * 3.0f;
-//         vec_1.z = 0.0f;
-//         vec_2.x = temp_f6 - 1.5f;
-//         vec_1.y = (Math_Rand_ZeroOne() * 3.0f) - 1.5f;
-//         temp_f6 = Math_Rand_ZeroOne() * 0.14f;
-//         vec_2.z = 0.8f;
-//         vec_3.x = temp_f6 - 0.07f;
-//         vec_2.y = (Math_Rand_ZeroOne() * 0.14f) - 0.07f;
-//         func_8002829C(
-//             globalCtx,
-//             &vec_1,
-//             &vec_2,
-//             &vec_3,
-//             &D_80891704,
-//             &D_80891708,
-//             450,
-//             (s16) ((Math_Rand_ZeroOne() * 40.0f) + 40.0f)
-//         );
-//     }
+//     for (phi_s3 = 0; phi_s3 < 2 ; phi_s3++) {
+//         if (!(arg2 < Math_Rand_ZeroOne())) {
+            
+//             temp_f6 = Math_Rand_ZeroOne() * 12.0f;
+//             vec_3.y = 15.0f;
+//             vec_3.x = D_808917A4[phi_s3] * (D_808917B4[temp_s6] + temp_f6 - 6.0f);
+//             vec_3.z = (Math_Rand_ZeroOne() * 20.0f) + ((84.0f - vec_3.x) * 0.2f);
+            
+//             func_808908FC(&vec_1, &vec_3, this->dyna.actor.posRot.rot.y);
+//             Math_Vec3f_Sum(&vec_1, &this->dyna.actor.posRot.pos, &vec_1);
+            
+//             temp_f6 = Math_Rand_ZeroOne() * 3.0f;
+//             vec_1.y = 0.0f;
+//             vec_1.x = temp_f6 - 1.5f;
+//             vec_1.z = (Math_Rand_ZeroOne() * 3.0f) - 1.5f;
+            
+//             temp_f6 = Math_Rand_ZeroOne() * 0.14f;
+//             vec_2.y = 0.8f;
+//             vec_2.x = temp_f6 - 0.07f;
+//             vec_2.z = (Math_Rand_ZeroOne() * 0.14f) - 0.07f;
 
-//     if (++phi_s3 != 2){
-//         goto loop_1;
+//             func_8002829C(globalCtx, &vec_1, &vec_2, &vec_3, &D_80891704, &D_80891708, 450,
+//                           (s16)((Math_Rand_ZeroOne() * 40.0f) + 40.0f));
+//         }
 //     }
 // }
 
